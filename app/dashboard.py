@@ -2,6 +2,7 @@ from dash import html, dcc, Dash, callback, Input, Output
 import plotly.express as px
 from sklearn import datasets
 import pandas as pd
+import dash_auth
 
 ############################ DATASET ###############################
 def load_dataset():
@@ -50,8 +51,19 @@ avg_drop = dcc.Dropdown(id="avg_drop", options=wine.feature_names, value="malic_
                           clearable=False, className="text-dark p-2")
 
 ####################### LAYOUT #############################
+# Keep this out of source code repository - save in a file or a database
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'hello': 'world'
+}
+
 external_css = ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css", ]
 app = Dash(__name__, external_stylesheets=external_css)
+
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
+
 
 sidebar = html.Div([
     html.Br(),
@@ -70,7 +82,7 @@ sidebar = html.Div([
 
 main_content = html.Div([
     html.Br(),
-    html.H2("Wine Dataset Analysis", className="text-center fw-bold fs-1"),
+    html.H2("SOLigence Trading Platform", className="text-center fw-bold fs-1"),
     html.Div([
         dcc.Graph(id="histogram", className="col-5"),
         dcc.Graph(id="scatter_chart", className="col-5")
